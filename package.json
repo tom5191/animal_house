@@ -1,0 +1,29 @@
+{
+  "name": "animal-house",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tom5191/animal_house.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tom5191/animal_house/issues"
+  },
+  "homepage": "https://github.com/tom5191/animal_house#readme",
+  "dependencies": {
+    "async-waterfall": "^0.1.5",
+    "config": "^3.1.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "mongoose": "^5.5.11"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
