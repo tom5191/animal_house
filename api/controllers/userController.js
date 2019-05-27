@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const authService = require('./../services/auth');
 
 module.exports = {
 	createUser: (req, res) => {
@@ -10,17 +10,15 @@ module.exports = {
 
 		const newUser = new User({ firstName, lastName, username, password, role });
 
-		bcrypt.genSalt(10, (err, salt) => {
-			bcrypt.hash(newUser.password, salt, (err, hash) => {
-				if (err) {
-					console.error(err);
-				}
-				newUser.set('password', hash);
+		authService
+			.newPassword(newUser.password)
+			.then(passHash => {
+				newUser.set('password', passHash);
 
 				newUser
 					.save()
 					.then(user => {
-						const token = jwt.sign({ id: user.id }, config.get('jwtSecret'));
+						const token = jwt.sign({ id: user._id }, config.get('jwtSecret'));
 
 						return res.json({
 							token: token,
@@ -28,8 +26,10 @@ module.exports = {
 						});
 					})
 					.catch(err => console.error(err));
+			})
+			.catch(err => {
+				return res.status(500).json({ msg: err });
 			});
-		});
 	},
 	userMe: (req, res) => {
 		return res.json({ user: req.user });
