@@ -8,22 +8,32 @@ module.exports = {
 	createUser: (req, res, next) => {
 		const { firstName, lastName, username, password, role } = req.body;
 
-		const newUser = new User({ firstName, lastName, username, password, role });
+		User.findOne({ username: username, deletedAt: null })
+			.then(user => {
+				if (user) {
+					return res.status(400).json({ error: 'Username already in use' });
+				}
 
-		authService
-			.newPassword(newUser.password)
-			.then(passHash => {
-				newUser.set('password', passHash);
+				const newUser = new User({ firstName, lastName, username, password, role });
 
-				newUser
-					.save()
-					.then(user => {
-						const token = jwt.sign({ id: user._id }, config.get('jwtSecret'));
+				authService
+					.newPassword(newUser.password)
+					.then(passHash => {
+						newUser.set('password', passHash);
 
-						return res.json({
-							token: token,
-							user: user,
-						});
+						newUser
+							.save()
+							.then(user => {
+								const token = jwt.sign({ id: user._id }, config.get('jwtSecret'));
+
+								return res.json({
+									token: token,
+									user: user,
+								});
+							})
+							.catch(err => {
+								return next(err);
+							});
 					})
 					.catch(err => {
 						return next(err);
