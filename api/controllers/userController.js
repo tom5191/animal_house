@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const authService = require('./../services/auth');
 
 module.exports = {
-	createUser: (req, res) => {
+	createUser: (req, res, next) => {
 		const { firstName, lastName, username, password, role } = req.body;
 
 		const newUser = new User({ firstName, lastName, username, password, role });
