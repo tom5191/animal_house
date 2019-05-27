@@ -3,7 +3,7 @@ const Animal = mongoose.model('Animal');
 const config = require('config');
 
 module.exports = {
-	createAnimal: (req, res) => {
+	createAnimal: (req, res, next) => {
 		const { name, species, breed, trackerId, owner, age } = req.body;
 
 		const newAnimal = new Animal({ name, species, breed, trackerId, owner, age });
@@ -14,19 +14,19 @@ module.exports = {
 				return res.json({ animal });
 			})
 			.catch(err => {
-				return res.status(500).json({ error: err.message });
+				return next(err);
 			});
 	},
-	getAllAnimals: (req, res) => {
+	getAllAnimals: (req, res, next) => {
 		Animal.find({ deletedAt: null })
 			.then(animals => {
 				return res.json({ animals });
 			})
 			.catch(err => {
-				return res.status(500).json({ error: err.message });
+				return next(err);
 			});
 	},
-	animalById: (req, res) => {
+	animalById: (req, res, next) => {
 		const { id } = req.params;
 
 		Animal.findById(id)
@@ -36,10 +36,10 @@ module.exports = {
 				return res.json({ animal });
 			})
 			.catch(err => {
-				return res.status(500).json({ msg: err.message });
+				return next(err);
 			});
 	},
-	deleteAnimal: (req, res) => {
+	deleteAnimal: (req, res, next) => {
 		const { id } = req.params;
 
 		Animal.updateOne({ _id: id }, { deletedAt: new Date() })
@@ -47,7 +47,7 @@ module.exports = {
 				return res.status(200).end();
 			})
 			.catch(err => {
-				return res.status(500).json({ error: err.message });
+				return next(err);
 			});
 	},
 };

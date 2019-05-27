@@ -25,16 +25,18 @@ module.exports = {
 							user: user,
 						});
 					})
-					.catch(err => console.error(err));
+					.catch(err => {
+						return next(err);
+					});
 			})
 			.catch(err => {
-				return res.status(500).json({ msg: err });
+				return next(err);
 			});
 	},
-	userMe: (req, res) => {
+	userMe: (req, res, next) => {
 		return res.json({ user: req.user });
 	},
-	userMeUpdate: (req, res) => {
+	userMeUpdate: (req, res, next) => {
 		let updateUser = {};
 
 		for (prop in req.body) {
@@ -46,10 +48,10 @@ module.exports = {
 				return res.status(200).end();
 			})
 			.catch(err => {
-				return res.status(500).json({ error: err.message });
+				return next(err);
 			});
 	},
-	userById: (req, res) => {
+	userById: (req, res, next) => {
 		const { id } = req.params;
 
 		User.findById(id)
@@ -59,18 +61,18 @@ module.exports = {
 				return res.json({ user });
 			})
 			.catch(err => {
-				return res.status(500).json({ msg: err.message });
+				return next(err);
 			});
 	},
-	deleteUser: (req, res) => {
+	deleteUser: (req, res, next) => {
 		const { id } = req.params;
 
-		User.updateOne({ id: id }, { deletedAt: new Date() })
+		User.updateOne({ _id: id }, { deletedAt: new Date() })
 			.then(() => {
 				return res.status(200).end();
 			})
 			.catch(err => {
-				return res.status(500).json({ error: err.message });
+				return next(err);
 			});
 	},
 };
