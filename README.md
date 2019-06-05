@@ -1,4 +1,4 @@
-# animal_house
+# Animal House
 
 ## Under Construction. No beta yet.
 
