@@ -21,6 +21,11 @@ const AnimalSchema = new Schema({
 		required: false,
 		type: Number,
 	},
+	conditions: [
+		{
+			type: String,
+		},
+	],
 	name: {
 		required: false,
 		type: String,

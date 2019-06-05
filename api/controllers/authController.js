@@ -22,7 +22,7 @@ module.exports = {
 
 					const token = jwt.sign({ id: user.id }, config.get('jwtSecret'));
 
-					return res.json({ token: token });
+					return res.json({ token, user });
 				});
 			})
 			.catch(err => {
