@@ -1,19 +1,25 @@
 <template>
-  <div class="md-layout">
-    <h1>Animal House</h1>
-    <div class="md-layout-item">
+  <div id="container">
+    <div >
+      <h1>Animal House</h1>
+    </div>
       <form @submit="submitLogin">
         <md-field>
-          <label>Username:</label>
+          <label >Username:</label>
           <md-input type="text" v-model="username" id="username" placeholder="username" required></md-input>
         </md-field>
         <md-field>
           <label>Password:</label>
           <md-input type="password" v-model="password" id="password" required></md-input>
         </md-field>
+        <div>
+          <md-button class="md-dense">Login</md-button>
+        </div>
+        <div>
+          <a>Forgot password?</a>
+        </div>
       </form>
     </div>
-  </div>
 </template>
 
 <script>
@@ -22,20 +28,27 @@ export default {
   data: () => ({
     username: "",
     password: ""
-  })
+  }),
+  methods: {
+    submitLogin() {
+      
+    }
+  }
 };
 </script>
 
 <style scoped>
-div {
-  margin: auto;
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height:50rem;
+  width:100%;
   text-align: center;
-  background: #00f;
 }
-h1 {
-  text-align: center;
-}
-form {
-  width: 20rem;
+
+#container > form {
+  width:25rem;
 }
 </style>

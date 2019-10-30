@@ -16,9 +16,15 @@ export default {
 </script>
 
 <style>
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  padding:0;
+  margin:0;
+}
 #app {
-  margin: auto;
-  height: auto;
   width: 100%;
 }
 </style>
